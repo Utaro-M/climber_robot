@@ -70,9 +70,35 @@ void r_rotate(void){
 //  krs.setPos(5,7500);
 }
 
+void r_rotate_reverse(void){
+  krs.setPos(3,7200);
+  servo_vector[3].ref_angle=krs.getPos(3);
+  servo_vector[3].flag_hold=0;
+  servo_vector[3].last_state=r;
+
+  servo_vector[3].current_angle=krs.getPos(3);
+  SerialBT.println(servo_vector[3].current_angle);
+//  krs.setPos(1,7500);
+//  krs.setPos(4,7500);
+//  krs.setPos(5,7500);
+}
+
 
 void l_rotate(void){
   krs.setPos(1,7200);
+  servo_vector[1].ref_angle=krs.getPos(1);
+  servo_vector[1].flag_hold=0;
+  servo_vector[1].last_state=l;
+
+  servo_vector[1].current_angle=krs.getPos(1);
+  SerialBT.println(servo_vector[1].current_angle);
+//  krs.setPos(1,7500);
+//  krs.setPos(4,7500);
+//  krs.setPos(5,7500);
+}
+
+void l_rotate_reverse(void){
+  krs.setPos(1,7800);
   servo_vector[1].ref_angle=krs.getPos(1);
   servo_vector[1].flag_hold=0;
   servo_vector[1].last_state=l;
