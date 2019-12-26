@@ -1,5 +1,3 @@
-
-
 void forward(void){
 //  hold(1);
 //  hold(2);
@@ -45,6 +43,7 @@ void pull_up(void){
 //  hold(4);
 //  hold(5);
 }
+
 void pull_down(void){
   krs.setPos(2,7100);
   servo_vector[2].ref_angle=krs.getPos(2);
@@ -74,7 +73,7 @@ void r_rotate_reverse(void){
   krs.setPos(3,7200);
   servo_vector[3].ref_angle=krs.getPos(3);
   servo_vector[3].flag_hold=0;
-  servo_vector[3].last_state=r;
+  servo_vector[3].last_state=rr;
 
   servo_vector[3].current_angle=krs.getPos(3);
   SerialBT.println(servo_vector[3].current_angle);
@@ -101,7 +100,7 @@ void l_rotate_reverse(void){
   krs.setPos(1,7800);
   servo_vector[1].ref_angle=krs.getPos(1);
   servo_vector[1].flag_hold=0;
-  servo_vector[1].last_state=l;
+  servo_vector[1].last_state=lr;
 
   servo_vector[1].current_angle=krs.getPos(1);
   SerialBT.println(servo_vector[1].current_angle);
@@ -110,6 +109,16 @@ void l_rotate_reverse(void){
 //  krs.setPos(5,7500);
 }
 
+void init_servo_vector(void){
+  for (int i=0;i<6;i++){
+    servo_vector[i].current_angle=krs.setPos(i,7500);
+    servo_vector[i].ref_angle=krs.setPos(i,7500);
+    servo_vector[i].flag_hold=1;
+    servo_vector[i].w=0.7;
+    servo_vector[i].ki=1;    
+    servo_vector[i].last_state=n;
+  }
+}
 
 
 void hold(int num1){
@@ -140,9 +149,7 @@ void hold_check(int now_state){
 //        servo_vector[i].flag_hold=1;
 //        servo_vector[i].last_state=n;
 //        servo_vector[i].ref_angle=tmp;
-        
-      }
-      
+      }  
     }
   }
 }
