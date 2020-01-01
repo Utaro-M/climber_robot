@@ -44,11 +44,18 @@ typedef struct{
   int current_angle=0;
   int ref_angle=0;
   float w=1;
+
+
+  float kp=1;
+  float ki=1;
+  float kd=1;
   int last_state=0;
-  int ki=0;
+  int dif_array[3]={0,0,0};
+
 }serv;
 
 serv servo_vector[6];
+
 
 
 
@@ -80,6 +87,8 @@ void setup() {
   }
 }
 int tmp=0;
+
+
 float pre_time=0;
 void loop() {
 
@@ -151,6 +160,18 @@ void loop() {
       }
         // servo_vector[i].current_angle=krs.getPos(i);
         // krs.setPos(i,servo_vector[i].current_angle);
+
+
+//   int r_pos=0;
+//   for (int i=0;i<6;i++){
+//     servo_vector[i].current_angle=krs.getPos(i);
+
+//     if(servo_vector[i].flag_hold==1){
+//       int dif=servo_vector[i].ref_angle-servo_vector[i].current_angle;
+//       if(2<abs(dif) && abs(dif)<500){
+//         krs.setPos(i,pid(dif,i));
+//       }
+
     }
   }
   pre_time=micros();
@@ -219,6 +240,7 @@ void loop() {
     delay(1000);
     init_servo_vector();
     
+
   }
   else if(val=='t'){
   //r_pos=set_pos(4,7400);
