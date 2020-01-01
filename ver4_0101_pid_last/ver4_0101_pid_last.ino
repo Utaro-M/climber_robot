@@ -111,8 +111,8 @@ void loop() {
 //    delay(2);
 //  }
 
-  //SerialBT.println(krs.getPos(3));  
- //SerialBT.println(servo_vector[3].ref_angle);  
+  SerialBT.println(krs.getPos(3));  
+  SerialBT.println(servo_vector[3].ref_angle);  
   
   int r_pos=0;
   //hold
@@ -190,57 +190,57 @@ void loop() {
   }else{
     val='o';
   }
-  Serial.println(val);
+  //Serial.println(val);
   if(val=='f'){
     forward();
     hold_check(f);
 
   }else if(val=='b'){
     back();
-    //SerialBT.println("back");
+    SerialBT.println("back");
     hold_check(b);
 
   }else if(val=='u'){
     pull_up();
-    //SerialBT.println("pull_up");
+    SerialBT.println("pull_up");
     hold_check(u);
 
   }else if(val=='d'){
     pull_down();
-    //SerialBT.println("pull_down");
+    SerialBT.println("pull_down");
     hold_check(d);
 
   }else if(val=='r'){
     r_rotate();
-    //SerialBT.println("r_rotate");
+    SerialBT.println("r_rotate");
     hold_check(r);
 
   }else if(val=='l'){
     l_rotate();
-    //SerialBT.println("l_rotate");
+    SerialBT.println("l_rotate");
     hold_check(l);
 
   }else if(val=='a'){
     r_rotate_reverse();
-    //SerialBT.println("r_rotate_reverse");
+    SerialBT.println("r_rotate_reverse");
     hold_check(rr);
 
   }else if(val=='c'){
     l_rotate_reverse();
-    //SerialBT.println("l_rotate_reverse");
+    SerialBT.println("l_rotate_reverse");
     hold_check(lr);
 
   }else if(val=='y'){
     l_rotate();
     r_rotate();
-    //SerialBT.println("both_rotate");
+    SerialBT.println("both_rotate");
     hold_check(l);
     hold_check(r);
 
   }else if(val=='h'){
     l_rotate_reverse();
     r_rotate_reverse();
-    //SerialBT.println("both_rotate_reverse");
+    SerialBT.println("both_rotate_reverse");
     hold_check(lr);
     hold_check(rr);
 
@@ -263,28 +263,28 @@ void loop() {
    r_pos=krs.setPos(4,7500);////////
 
 
-   //SerialBT.println(r_pos);
+   SerialBT.println(r_pos);
    }else if(val=='P'){
     for (int i=0;i<6;i++){
       servo_vector[i].kp+=0.1;
       servo_vector[i].ki=ki;
       servo_vector[i].kd=kd;
     }
-    //SerialBT.println(servo_vector[1].kp);
+    SerialBT.println(servo_vector[1].kp);
    }else if(val=='I'){
     for (int i=0;i<6;i++){
       servo_vector[i].kp=kp;
       servo_vector[i].ki+=0.1;
       servo_vector[i].kd=kd;
     }
-    //SerialBT.println(servo_vector[1].ki);
+    SerialBT.println(servo_vector[1].ki);
    }else if(val=='D'){
     for (int i=0;i<6;i++){
       servo_vector[i].kp=kp;
       servo_vector[i].ki=ki;
       servo_vector[i].kd+=0.1;
     }
-    //SerialBT.println(servo_vector[1].kd);
+    SerialBT.println(servo_vector[1].kd);
    }
    
   else{
@@ -299,7 +299,7 @@ void loop() {
 
     hold_check(n);
     //SerialBT.println("quit");
-    //SerialBT.println(count++);
+    SerialBT.println(count++);
   }
 
 

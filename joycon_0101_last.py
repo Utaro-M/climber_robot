@@ -101,7 +101,7 @@ def main():
 			elif(L1==1 and arm_up_down<-50):
 				flag=1
 				str_="Left Down"  #l_rotate_reverse
-				ser.write('b'.encode())
+				ser.write('c'.encode())
 
 			# if(R1==1 and L1==1):
 			# 	if(arm_up_down>50):
