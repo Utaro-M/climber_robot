@@ -1,11 +1,26 @@
+
+//int tmp=0;
+
 void forward(void){
 //  hold(1);
 //  hold(2);
 //  hold(3);
-  krs.setPos(4,7000);
-  krs.setPos(5,8000);
+
+  krs.setPos(4,7100);
+  krs.setPos(5,7900);
+  if((tmp=krs.getPos(4))!=-1){
+    servo_vector[4].ref_angle=tmp;  
+  }
+  if((tmp=krs.getPos(5))!=-1){
+    servo_vector[5].ref_angle=tmp;  
+  }
+  
+
+//   krs.setPos(4,7000);
+//   krs.setPos(5,8000);
 //  servo_vector[4].ref_angle=krs.setPos(4,7000);
 //  servo_vector[5].ref_angle=krs.setPos(5,8000);
+
   servo_vector[4].flag_hold=0;
   servo_vector[5].flag_hold=0;
   servo_vector[4].last_state=f;
@@ -20,8 +35,18 @@ void back(void){
 //  hold(1);
 //  //hold(2);
 //  hold(3);
-  krs.setPos(4,8000);
-  krs.setPos(5,7000);
+
+  krs.setPos(4,7900);
+  krs.setPos(5,7100);
+  if((tmp=krs.getPos(4))!=-1){
+    servo_vector[4].ref_angle=tmp;  
+  }
+  if((tmp=krs.getPos(5))!=-1){
+    servo_vector[5].ref_angle=tmp;  
+  }
+//   krs.setPos(4,8000);
+//   krs.setPos(5,7000);
+
 //  servo_vector[4].ref_angle=krs.getPos(4);
 //  servo_vector[5].ref_angle=krs.getPos(5);
   servo_vector[4].flag_hold=0;
@@ -35,7 +60,14 @@ void back(void){
 
 void pull_up(void){
   krs.setPos(2,7900);
-  servo_vector[2].ref_angle=krs.getPos(2);
+
+  if((tmp=krs.getPos(2))!=-1){
+    servo_vector[2].ref_angle=tmp;  
+  }
+  //servo_vector[2].ref_angle=krs.getPos(2);
+
+  //servo_vector[2].ref_angle=krs.getPos(2);
+
   servo_vector[2].flag_hold=0;
   servo_vector[2].last_state=u;
 //  hold(1);
@@ -46,7 +78,12 @@ void pull_up(void){
 
 void pull_down(void){
   krs.setPos(2,7100);
-  servo_vector[2].ref_angle=krs.getPos(2);
+
+  if((tmp=krs.getPos(2))!=-1){
+    servo_vector[2].ref_angle=tmp;  
+  }
+  //servo_vector[2].ref_angle=krs.getPos(2);
+
   servo_vector[2].flag_hold=0;
   servo_vector[2].last_state=d;
 //  hold(1);
@@ -58,11 +95,16 @@ void pull_down(void){
 
 void r_rotate(void){
   krs.setPos(3,7800);
-  servo_vector[3].ref_angle=krs.getPos(3);
+
+  if((tmp=krs.getPos(3))!=-1){
+    servo_vector[3].ref_angle=tmp;  
+  }
+  //servo_vector[3].ref_angle=krs.getPos(3);
   servo_vector[3].flag_hold=0;
   servo_vector[3].last_state=r;
 
-  servo_vector[3].current_angle=krs.getPos(3);
+  //servo_vector[3].current_angle=krs.getPos(3);
+
   SerialBT.println(servo_vector[3].current_angle);
 //  krs.setPos(1,7500);
 //  krs.setPos(4,7500);
@@ -71,11 +113,16 @@ void r_rotate(void){
 
 void r_rotate_reverse(void){
   krs.setPos(3,7200);
-  servo_vector[3].ref_angle=krs.getPos(3);
+
+  if((tmp=krs.getPos(3))!=-1){
+    servo_vector[3].ref_angle=tmp;  
+  }
+  //servo_vector[3].ref_angle=krs.getPos(3);
   servo_vector[3].flag_hold=0;
   servo_vector[3].last_state=rr;
 
-  servo_vector[3].current_angle=krs.getPos(3);
+  //servo_vector[3].current_angle=krs.getPos(3);
+
   SerialBT.println(servo_vector[3].current_angle);
 //  krs.setPos(1,7500);
 //  krs.setPos(4,7500);
@@ -85,11 +132,16 @@ void r_rotate_reverse(void){
 
 void l_rotate(void){
   krs.setPos(1,7200);
-  servo_vector[1].ref_angle=krs.getPos(1);
+
+  if((tmp=krs.getPos(1))!=-1){
+    servo_vector[1].ref_angle=tmp;  
+  }
+  //servo_vector[1].ref_angle=krs.getPos(1);
   servo_vector[1].flag_hold=0;
   servo_vector[1].last_state=l;
 
-  servo_vector[1].current_angle=krs.getPos(1);
+  //servo_vector[1].current_angle=krs.getPos(1);
+
   SerialBT.println(servo_vector[1].current_angle);
 //  krs.setPos(1,7500);
 //  krs.setPos(4,7500);
@@ -98,29 +150,55 @@ void l_rotate(void){
 
 void l_rotate_reverse(void){
   krs.setPos(1,7800);
-  servo_vector[1].ref_angle=krs.getPos(1);
+
+  
+  if((tmp=krs.getPos(1))!=-1){
+    servo_vector[1].ref_angle=tmp;  
+  }
+  //servo_vector[1].ref_angle=krs.getPos(1);
   servo_vector[1].flag_hold=0;
   servo_vector[1].last_state=lr;
 
-  servo_vector[1].current_angle=krs.getPos(1);
+  //servo_vector[1].current_angle=krs.getPos(1);
+
   SerialBT.println(servo_vector[1].current_angle);
 //  krs.setPos(1,7500);
 //  krs.setPos(4,7500);
 //  krs.setPos(5,7500);
 }
 
+//servo_vectorを初期化 setup()
+
 void init_servo_vector(void){
   for (int i=0;i<6;i++){
     servo_vector[i].current_angle=krs.setPos(i,7500);
     servo_vector[i].ref_angle=krs.setPos(i,7500);
     servo_vector[i].flag_hold=1;
+
+//     servo_vector[i].w=0.7;
+//     servo_vector[i].ki=0.8;
+
     servo_vector[i].kp=0.3;
     servo_vector[i].ki=0.2;
     servo_vector[i].kd=0.5;
+
     servo_vector[i].last_state=n;
   }
 }
 
+//val==iの時
+void reset_servo_vector(void){
+  for (int i=0;i<6;i++){
+    servo_vector[i].current_angle=krs.setPos(i,7500);
+    servo_vector[i].ref_angle=krs.setPos(i,7500);
+    servo_vector[i].flag_hold=0;
+    servo_vector[i].w=0.7;
+    servo_vector[i].ki=1.2;
+    servo_vector[i].last_state=n;
+  }
+}
+
+//使ってない
 
 void hold(int num1){
   servo_vector[num1].current_angle=krs.setFree(num1);
@@ -128,6 +206,11 @@ void hold(int num1){
   //krs.setPos(num1,7500);
   Serial.print("hold");
 }
+
+//pid制御？？？
+
+
+//now_state servo_vector[i].last_stateが異なるときに
 
 int pi(int dif,int i){
 
@@ -148,6 +231,7 @@ int pid(int dif,int i){
   return out;
 
 }
+
 
 void hold_check(int now_state){
   int tmp=0;

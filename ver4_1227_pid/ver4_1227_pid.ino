@@ -44,16 +44,17 @@ typedef struct{
   int current_angle=0;
   int ref_angle=0;
   float w=1;
+
+
   float kp=1;
   float ki=1;
   float kd=1;
   int last_state=0;
   int dif_array[3]={0,0,0};
+
 }serv;
 
 serv servo_vector[6];
-
-
 
 
 
@@ -78,7 +79,15 @@ void setup() {
 
   init_servo_vector();
 
+//resetしてから５秒内に電源ONで目標角度、現在角度を取得
+  delay(5000);
+  for(int i=0;i<6;i++){
+    servo_vector[i].current_angle=krs.getPos(i);
+    servo_vector[i].ref_angle=servo_vector[i].current_angle;
+  }
 }
+int tmp=0;
+
 
 float pre_time=0;
 void loop() {
@@ -93,16 +102,76 @@ void loop() {
 //    delay(2);
 //  }
 
-
+  SerialBT.println(krs.getPos(3));  
+  SerialBT.println(servo_vector[3].ref_angle);  
+  
   int r_pos=0;
+  //hold
   for (int i=0;i<6;i++){
-    servo_vector[i].current_angle=krs.getPos(i);
-
+    
+    if((tmp=krs.getPos(i))!=-1){
+      servo_vector[i].current_angle=tmp;
+    }
+    
+    //flag_holdが１だとholdする、hold_check()で連続して同じコマンドが送られているときは０、コマンドが切れたときは１にする
     if(servo_vector[i].flag_hold==1){
+      //目標値と現在値の差
+      
       int dif=servo_vector[i].ref_angle-servo_vector[i].current_angle;
       if(2<abs(dif) && abs(dif)<500){
-        krs.setPos(i,pid(dif,i));
+        krs.setPos(i,pi(dif,i));
+      }else if(abs(dif)>9510){//3500->11500 or 11500->3500
+        //forward後の場合　４が左、５が右？
+        if(dif<0){
+          servo_vector[i].ref_angle=12495;
+        }else if(dif>0){
+          servo_vector[i].ref_angle=2505;
+        }
+        
+//        if(servo_vector[i].last_state==f){
+//          switch (i){
+//            case 4 :
+//            servo_vector[i].ref_angle=12500;
+//            break;
+//            case 5:
+//            servo_vector[i].ref_angle=2500;
+//            break;
+//          }
+//
+//        }else if(servo_vector[i].last_state==b){// backの後の場合　４が左、５が右？
+//          switch (i){
+//            case 4 :
+//            servo_vector[i].ref_angle=3500;
+//            break;
+//            case 5:
+//            servo_vector[i].ref_angle=11500;
+//            break;
+//          }
+//        }else if(servo_vector[i].last_state==u){
+//          servo_vector[2].ref_angle=11500;
+//        }else if(servo_vector[i].last_state==d){
+//          servo_vector[2].ref_angle=3500;
+//        }else if(servo_vector[i].last_state==r or servo_vector[i].last_state==lr){
+//          servo_vector[i].ref_angle=12500;
+//        }else if(servo_vector[i].last_state==l or servo_vector[i].last_state==rr){
+//          servo_vector[i].ref_angle=2500;
+//        }
+        
       }
+        // servo_vector[i].current_angle=krs.getPos(i);
+        // krs.setPos(i,servo_vector[i].current_angle);
+
+
+//   int r_pos=0;
+//   for (int i=0;i<6;i++){
+//     servo_vector[i].current_angle=krs.getPos(i);
+
+//     if(servo_vector[i].flag_hold==1){
+//       int dif=servo_vector[i].ref_angle-servo_vector[i].current_angle;
+//       if(2<abs(dif) && abs(dif)<500){
+//         krs.setPos(i,pid(dif,i));
+//       }
+
     }
   }
   pre_time=micros();
@@ -158,9 +227,20 @@ void loop() {
     hold_check(l);
     hold_check(r);
 
-  }else if(val=='i'){
+  }else if(val=='h'){
+    l_rotate_reverse();
+    r_rotate_reverse();
+    SerialBT.println("both_rotate_reverse");
+    hold_check(lr);
+    hold_check(rr);
+
+  }
+  else if(val=='i'){
+    reset_servo_vector();
+    delay(1000);
     init_servo_vector();
-    delay(10);
+    
+
   }
   else if(val=='t'){
   //r_pos=set_pos(4,7400);
