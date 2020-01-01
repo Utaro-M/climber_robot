@@ -23,6 +23,7 @@ def main():
 		# i=0
 		flag=0
 		while True:
+			print(ser.read().decode())
 			# Joystickの読み込み
 			#   get_axisは　-1.0〜0.0〜+1.0 で変化するので100倍して±100にする
 			#   プラスマイナスの方向が逆の場合は-100倍して反転させる
@@ -62,40 +63,45 @@ def main():
 			if(forward_back>50):
 				flag=1
 				str_="Forward"
-				ser.write('f'.encode())
+				ser.write('f'.encode('utf-8'))
 
-			if(forward_back<-50):
+			elif(forward_back<-50):
 				flag=1
 				str_="Back"
 				ser.write('b'.encode())
 
-			if(R1==1 and L1==1 and arm_up_down>50):
+			elif(R1==1 and L1==1 and arm_up_down>50):
 
 				flag=1
 				str_="Both Up"
 				ser.write('y'.encode())
+
 			elif(R1==1 and L1==1 and arm_up_down<-50):
 				flag=1
 				str_="Both Down"
 				ser.write('h'.encode())
+
 			elif(R1==1 and arm_up_down>50):
 
 				flag=1
 				str_="Right Up"
 				ser.write('r'.encode())
+
 			elif(R1==1 and arm_up_down<-50):
 				flag=1
 				str_="Right Down"
 				ser.write('a'.encode())
+
 			elif(L1==1 and arm_up_down>50):
 
 				flag=1
 				str_="Left Up"  #r_rotate_reverse
 				ser.write('l'.encode())
+
 			elif(L1==1 and arm_up_down<-50):
 				flag=1
 				str_="Left Down"  #l_rotate_reverse
-				ser.write('c'.encode())
+				ser.write('b'.encode())
 
 			# if(R1==1 and L1==1):
 			# 	if(arm_up_down>50):
@@ -125,16 +131,16 @@ def main():
 			# 		str_="Left Down"  #l_rotate_reverse
 			# 		ser.write('b'.encode())
 
-			if(center_down==1):
+			elif(center_down==1):
 				flag=1
 				str_="Center Up"
 				ser.write('u'.encode())
-			if(center_up==1):
+			elif(center_up==1):
 				flag=1
 				str_="Center Down"
 				ser.write('d'.encode())
 
-			if(Reset==1):
+			elif(Reset==1):
 				flag=1
 				str_="Reset"
 				ser.write('i'.encode())
@@ -145,6 +151,7 @@ def main():
 				sys.exit()
 			if(flag == 1):
 				ser.write('x'.encode())
+				#str_="x"
 				flag=0
 
 			print("{:16}".format(str_),end='')
@@ -158,8 +165,8 @@ def main():
 			# 	drone.takeoff()
 			# elif btn2 == 1:		# 着陸
 			# 	drone.land()
-
-			time.sleep(0.03)	# 適度にウェイトを入れてCPU負荷を下げる
+			time.sleep(0.01	)
+			#time.sleep(0.03)	# 適度にウェイトを入れてCPU負荷を下げる
 	# except:
 	# 	return -1
 

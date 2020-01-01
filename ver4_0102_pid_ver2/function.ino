@@ -9,12 +9,12 @@ void forward(void){
   krs.setPos(4,7100);
   krs.setPos(5,7900);
   if((tmp=krs.getPos(4))!=-1){
-    servo_vector[4].ref_angle=tmp;  
+    servo_vector[4].ref_angle=tmp;
   }
   if((tmp=krs.getPos(5))!=-1){
-    servo_vector[5].ref_angle=tmp;  
+    servo_vector[5].ref_angle=tmp;
   }
-  
+
 
 //   krs.setPos(4,7000);
 //   krs.setPos(5,8000);
@@ -39,10 +39,10 @@ void back(void){
   krs.setPos(4,7900);
   krs.setPos(5,7100);
   if((tmp=krs.getPos(4))!=-1){
-    servo_vector[4].ref_angle=tmp;  
+    servo_vector[4].ref_angle=tmp;
   }
   if((tmp=krs.getPos(5))!=-1){
-    servo_vector[5].ref_angle=tmp;  
+    servo_vector[5].ref_angle=tmp;
   }
 //   krs.setPos(4,8000);
 //   krs.setPos(5,7000);
@@ -62,7 +62,7 @@ void pull_up(void){
   krs.setPos(2,7900);
 
   if((tmp=krs.getPos(2))!=-1){
-    servo_vector[2].ref_angle=tmp;  
+    servo_vector[2].ref_angle=tmp;
   }
   //servo_vector[2].ref_angle=krs.getPos(2);
 
@@ -80,7 +80,7 @@ void pull_down(void){
   krs.setPos(2,7100);
 
   if((tmp=krs.getPos(2))!=-1){
-    servo_vector[2].ref_angle=tmp;  
+    servo_vector[2].ref_angle=tmp;
   }
   //servo_vector[2].ref_angle=krs.getPos(2);
 
@@ -97,7 +97,7 @@ void r_rotate(void){
   krs.setPos(3,7800);
 
   if((tmp=krs.getPos(3))!=-1){
-    servo_vector[3].ref_angle=tmp;  
+    servo_vector[3].ref_angle=tmp;
   }
   //servo_vector[3].ref_angle=krs.getPos(3);
   servo_vector[3].flag_hold=0;
@@ -115,7 +115,7 @@ void r_rotate_reverse(void){
   krs.setPos(3,7200);
 
   if((tmp=krs.getPos(3))!=-1){
-    servo_vector[3].ref_angle=tmp;  
+    servo_vector[3].ref_angle=tmp;
   }
   //servo_vector[3].ref_angle=krs.getPos(3);
   servo_vector[3].flag_hold=0;
@@ -134,7 +134,7 @@ void l_rotate(void){
   krs.setPos(1,7200);
 
   if((tmp=krs.getPos(1))!=-1){
-    servo_vector[1].ref_angle=tmp;  
+    servo_vector[1].ref_angle=tmp;
   }
   //servo_vector[1].ref_angle=krs.getPos(1);
   servo_vector[1].flag_hold=0;
@@ -151,9 +151,9 @@ void l_rotate(void){
 void l_rotate_reverse(void){
   krs.setPos(1,7800);
 
-  
+
   if((tmp=krs.getPos(1))!=-1){
-    servo_vector[1].ref_angle=tmp;  
+    servo_vector[1].ref_angle=tmp;
   }
   //servo_vector[1].ref_angle=krs.getPos(1);
   servo_vector[1].flag_hold=0;
@@ -178,9 +178,19 @@ void init_servo_vector(void){
 //     servo_vector[i].w=0.7;
 //     servo_vector[i].ki=0.8;
 
-    servo_vector[i].kp=0.3;
-    servo_vector[i].ki=0.2;
-    servo_vector[i].kd=0.5;
+//    servo_vector[i].kp=0.3;
+//    servo_vector[i].ki=0.2;
+//    servo_vector[i].kd=0.1;
+    if(i==3){
+      servo_vector[i].kp=kp+0.1;
+      servo_vector[i].ki=ki;
+      servo_vector[i].kd=kd;
+    }else{
+      servo_vector[i].kp=kp;
+      servo_vector[i].ki=ki;
+      servo_vector[i].kd=kd;
+    }
+    
 
     servo_vector[i].last_state=n;
   }
@@ -192,8 +202,11 @@ void reset_servo_vector(void){
     servo_vector[i].current_angle=krs.setPos(i,7500);
     servo_vector[i].ref_angle=krs.setPos(i,7500);
     servo_vector[i].flag_hold=0;
-    servo_vector[i].w=0.7;
-    servo_vector[i].ki=1.2;
+    servo_vector[i].kp=kp;
+    servo_vector[i].ki=ki;
+    servo_vector[i].kd=kd;
+//    servo_vector[i].w=0.7;
+//    servo_vector[i].ki=1.2;
     servo_vector[i].last_state=n;
   }
 }
@@ -221,13 +234,17 @@ int pid(int dif,int i){
   int out=0;
   servo_vector[i].dif_array[0]=dif;
   //u= (int)(7500+servo_vector[i].kp*dif+servo_vector[i].ki*dif*(micros()-pre_time)/ 1000000);
-  out=(int)(7500+servo_vector[i].kp*servo_vector[i].dif_array[0] + servo_vector[i].ki*(servo_vector[i].dif_array[0]+servo_vector[i].dif_array[1]+servo_vector[i].dif_array[2]) + servo_vector[i].kd*(servo_vector[i].dif_array[0]-servo_vector[i].dif_array[1]));
+  
+  out=(int)(7500+servo_vector[i].kp*servo_vector[i].dif_array[0] 
+  + servo_vector[i].ki*(servo_vector[i].dif_array[0]+servo_vector[i].dif_array[1]+servo_vector[i].dif_array[2]) 
+  + servo_vector[i].kd*(servo_vector[i].dif_array[0]-servo_vector[i].dif_array[1]));
+  
   servo_vector[i].dif_array[2]=servo_vector[i].dif_array[1];
   servo_vector[i].dif_array[1]=servo_vector[i].dif_array[0];
   SerialBT.print("dif= ");
   SerialBT.println(dif);
  // Serial.print(out);
-  
+
   return out;
 
 }

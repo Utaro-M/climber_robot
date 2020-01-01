@@ -7,6 +7,13 @@ BluetoothSerial SerialBT;
 #include<stdio.h>
 
 
+//test 用
+float kp=0.8;
+float ki=0.5  ;
+float kd=0.4;
+
+
+
 const byte EN_PIN = 2;
 const long BAUDRATE =1250000; //115200;
 const int TIMEOUT = 10;    //通信できてないか確認用にわざと遅めに設定
@@ -37,7 +44,7 @@ int servo1Pin = 12;
 // Published values for SG90 servos; adjust if needed
 int minUs = 500;
 int maxUs = 2400;
-int pos = 0;      // position in degrees
+int pos = 0;      // position in degrees  
 
 typedef struct{
   int flag_hold=0;
@@ -88,9 +95,11 @@ void setup() {
 }
 int tmp=0;
 
-
+int count=0;
 float pre_time=0;
 void loop() {
+  
+  
 
 //  for (pos = 0; pos <= 180; pos += 1) { // sweep from 0 degrees to 180 degrees
 //    // in steps of 1 degree
@@ -118,7 +127,7 @@ void loop() {
       //目標値と現在値の差
       
       int dif=servo_vector[i].ref_angle-servo_vector[i].current_angle;
-      if(2<abs(dif) && abs(dif)<500){
+      if(1<abs(dif) && abs(dif)<500){
         krs.setPos(i,pi(dif,i));
       }else if(abs(dif)>9510){//3500->11500 or 11500->3500
         //forward後の場合　４が左、５が右？
@@ -169,7 +178,7 @@ void loop() {
 //     if(servo_vector[i].flag_hold==1){
 //       int dif=servo_vector[i].ref_angle-servo_vector[i].current_angle;
 //       if(2<abs(dif) && abs(dif)<500){
-//         krs.setPos(i,pid(dif,i));
+//         krs.setPos(i,pid(dif,i));  
 //       }
 
     }
@@ -180,7 +189,7 @@ void loop() {
     val=SerialBT.read();
     //SerialBT.println("init");
   }
-
+  //Serial.println(val);
   if(val=='f'){
     forward();
     hold_check(f);
@@ -254,7 +263,29 @@ void loop() {
 
 
    SerialBT.println(r_pos);
+   }else if(val=='P'){
+    for (int i=0;i<6;i++){
+      servo_vector[i].kp+=0.1;
+      servo_vector[i].ki=ki;
+      servo_vector[i].kd=kd;
+    }
+    SerialBT.println(servo_vector[1].kp);
+   }else if(val=='I'){
+    for (int i=0;i<6;i++){
+      servo_vector[i].kp=kp;
+      servo_vector[i].ki+=0.1;
+      servo_vector[i].kd=kd;
+    }
+    SerialBT.println(servo_vector[1].ki);
+   }else if(val=='D'){
+    for (int i=0;i<6;i++){
+      servo_vector[i].kp=kp;
+      servo_vector[i].ki=ki;
+      servo_vector[i].kd+=0.1;
+    }
+    SerialBT.println(servo_vector[1].kd);
    }
+   
   else{
 //    krs.setPos(4,7500);/////////
 //    krs.setPos(1,7500);
@@ -266,7 +297,8 @@ void loop() {
 
 
     hold_check(n);
-    SerialBT.println("quit");
+    //SerialBT.println("quit");
+    SerialBT.println(count++);
   }
 
 
