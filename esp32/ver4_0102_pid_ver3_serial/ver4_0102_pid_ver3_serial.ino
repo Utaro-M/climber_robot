@@ -48,7 +48,7 @@ int pos = 0;      // position in degrees
 
 typedef struct{
   int flag_hold=0;
-  int current_angle=0;
+  int current_angle=0;  
   int ref_angle=0;
   float w=1;
 

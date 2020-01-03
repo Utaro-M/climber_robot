@@ -136,6 +136,7 @@ def main():
 
     while(cap.isOpened()):
         ret,frame=cap.read()
+        print(frame)
 
         mask1=color_detect(frame)
         mask2=mask1
@@ -292,4 +293,3 @@ if __name__ == '__main__':
     try:
         main()
     except rospy.ROSInterruptException :pass
-    
