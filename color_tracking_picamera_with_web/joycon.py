@@ -7,7 +7,7 @@ import sys
 import serial
 import cv2
 #ser=serial.Serial('/dev/ttyACM0',9600)
-ser=serial.Serial(port="COM5")
+ser=serial.Serial(port="COM4")
 
 # #flag for auto
 # flag_auto=0
@@ -60,7 +60,7 @@ def joycon_waiting():
 			pygame.event.pump()		# イベントの更新
 			#print("4=%d 5=%d 6=%d"%(center4,center5,))
 			# プラスマイナスの方向や離陸/着陸に使うボタンを確認するためのprint文
-			print("\rl/r={:^4} f/b={:^4} u/d={:^4}| btn0={:2} center_down={:2} btn2={:2} center_up={:2} L1={:2} R1={:2} Reset{:2}| ".format(left_right, forward_back, arm_up_down, btn0, center_down, btn2, center_up,L1,R1,Reset), end="")
+			#print("\rl/r={:^4} f/b={:^4} u/d={:^4}| btn0={:2} center_down={:2} btn2={:2} center_up={:2} L1={:2} R1={:2} Reset{:2}| ".format(left_right, forward_back, arm_up_down, btn0, center_down, btn2, center_up,L1,R1,Reset), end="")
 
 			# test=joy.get_button(5)
 			# print("test={:^3}".format(test),end='')
@@ -137,7 +137,7 @@ def joycon_waiting():
 				#str_="x"
 				flag=0
 
-			print("{:16}".format(str_),end='')
+			#print("{:16}".format(str_),end='')
 			# if(not KeyboardInterrupt):
 			# 	return -1
 
