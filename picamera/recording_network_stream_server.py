@@ -1,5 +1,6 @@
 import socket
 import subprocess
+import cv2
 
 # Start a socket listening for connections on 0.0.0.0:8000 (0.0.0.0 means
 # all interfaces)
@@ -18,6 +19,7 @@ try:
     while True:
         # Repeatedly read 1k of data from the connection and write it to
         # the media player's stdin
+        print(cmdline)
         data = connection.read(1024)
         if not data:
             break
