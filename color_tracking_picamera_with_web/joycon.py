@@ -50,6 +50,8 @@ def joycon_waiting():
 			center_up = joy.get_button(3)
 			L1 = joy.get_button(4)
 			R1 = joy.get_button(5)
+			camera_up=joy.get_button(6)
+			camera_down=joy.get_button(7)
 			#R1 = joy.get_button(12) # 6-L2 7-R2 8-share 9-option 10-L3 11-R3
 			auto=joy.get_button(8)
 			Reset=joy.get_button(12)
@@ -127,11 +129,17 @@ def joycon_waiting():
 				flag=1
 				str_="Reset"
 				ser.write('i'.encode())
-
-
+			elif(camera_up==1):
+				flag=1
+				ser.write('m'.encode())
+			elif(camera_down==1):
+				flag=1
+				ser.write('n'.encode())
 			elif (stop==1):
 				str_="Stop"
 				sys.exit()
+
+
 			if(flag == 1):
 				ser.write('x'.encode())
 				#str_="x"

@@ -96,6 +96,8 @@ int tmp=0;
 
 int count=0;
 float pre_time=0;
+//camera_servoの角度を保持
+float camera_servo_pos=30;
 void loop() {
 
 
@@ -288,7 +290,22 @@ void loop() {
       servo_vector[i].kd+=0.1;
     }
     //SerialBT.println(servo_vector[1].kd);
-   }
+   }else if(val=='m'){
+    if(camera_servo_pos<140){
+      camera_servo_pos+=1;
+      servo1.write(camera_servo_pos);
+    }else{
+      servo1.write(camera_servo_pos);
+    }
+
+  }else if(val=='n'){
+    if(20<camera_servo_pos){
+      camera_servo_pos-=1;
+      servo1.write(camera_servo_pos);
+    }else{
+      servo1.write(camera_servo_pos);
+    }
+  }
 
   else{
 //    krs.setPos(4,7500);/////////
