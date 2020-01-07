@@ -44,7 +44,7 @@ int servo1Pin = 12;
 // Published values for SG90 servos; adjust if needed
 int minUs = 500;
 int maxUs = 2400;
-int pos = 0;      // position in degrees  
+int pos = 0;      // position in degrees
 
 typedef struct{
   int flag_hold=0;
@@ -98,8 +98,8 @@ int tmp=0;
 int count=0;
 float pre_time=0;
 void loop() {
-  
-  
+
+
 
 //  for (pos = 0; pos <= 180; pos += 1) { // sweep from 0 degrees to 180 degrees
 //    // in steps of 1 degree
@@ -111,20 +111,22 @@ void loop() {
 //    delay(2);
 //  }
 
-  //SerialBT.println(krs.getPos(3));  
- //SerialBT.println(servo_vector[3].ref_angle);  
-  
+  //SerialBT.println(krs.getPos(3));
+ //SerialBT.println(servo_vector[3].ref_angle);
+
+
+
   int r_pos=0;
   //hold
   for (int i=0;i<6;i++){
-    
+
     if((tmp=krs.getPos(i))!=-1){
       servo_vector[i].current_angle=tmp;
-    }    
+    }
     //flag_holdが１だとholdする、hold_check()で連続して同じコマンドが送られているときは０、コマンドが切れたときは１にする
     if(servo_vector[i].flag_hold==1){
       //目標値と現在値の差
-      
+
       int dif=servo_vector[i].ref_angle-servo_vector[i].current_angle;
       if(1<abs(dif) && abs(dif)<500){
         krs.setPos(i,pi(dif,i));
@@ -135,7 +137,7 @@ void loop() {
         }else if(dif>0){
           servo_vector[i].ref_angle=2505;
         }
-        
+
 //        if(servo_vector[i].last_state==f){
 //          switch (i){
 //            case 4 :
@@ -164,7 +166,7 @@ void loop() {
 //        }else if(servo_vector[i].last_state==l or servo_vector[i].last_state==rr){
 //          servo_vector[i].ref_angle=2500;
 //        }
-        
+
       }
         // servo_vector[i].current_angle=krs.getPos(i);
         // krs.setPos(i,servo_vector[i].current_angle);
@@ -177,7 +179,7 @@ void loop() {
 //     if(servo_vector[i].flag_hold==1){
 //       int dif=servo_vector[i].ref_angle-servo_vector[i].current_angle;
 //       if(2<abs(dif) && abs(dif)<500){
-//         krs.setPos(i,pid(dif,i));  
+//         krs.setPos(i,pid(dif,i));
 //       }
 
     }
@@ -249,7 +251,7 @@ void loop() {
     reset_servo_vector();
     delay(1000);
     init_servo_vector();
-    
+
 
   }
   else if(val=='t'){
@@ -286,7 +288,7 @@ void loop() {
     }
     //SerialBT.println(servo_vector[1].kd);
    }
-   
+
   else{
 //    krs.setPos(4,7500);/////////
 //    krs.setPos(1,7500);
